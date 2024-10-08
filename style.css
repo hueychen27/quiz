@@ -1,0 +1,80 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    padding: 10px;
+}
+
+button {
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#content {
+    border: 2px solid black;
+}
+
+#content input {
+    cursor: pointer;
+}
+
+#content label {
+    user-select: none;
+}
+
+#resetConfirmation {
+    margin: auto auto;
+    border-radius: 25px;
+}
+
+#dialogForm {
+    padding: 3rem;
+}
+
+#buttonGroup {
+    padding: 5px;
+}
+
+.questions {
+    display: flex;
+    flex-flow: column wrap;
+    position: relative;
+    padding: 10px;
+}
+
+.correct {
+    border-color: green;
+}
+
+.correct::after {
+    content: "✓";
+    color: green;
+}
+
+.incorrect {
+    border-color: red;
+}
+
+.incorrect::after {
+    content: "✗";
+    color: red;
+}
+
+.correct::after,
+.incorrect::after {
+    position: absolute;
+    top: 0;
+    right: 20px;
+    font-size: 30px;
+}
+
+label {
+    white-space: pre-wrap;
+    /* Wrap newlines in text */
+}

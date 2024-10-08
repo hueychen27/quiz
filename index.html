@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>Quiz</title>
+    <script src="./main.js" type="module" defer></script>
+</head>
+
+<body>
+    <header>
+        <h1>Simple Quiz</h1>
+    </header>
+    <main>
+        <form id="content">
+            <!-- <fieldset id="q1" class="questions" name="q1">
+            <legend class="title">Example question</legend>
+            <label><input class="a" type="radio" name="q1" value="a" required>Example answer</label>
+            <label><input class="b" type="radio" name="q1" value="b">2</label>
+            <label><input class="c" type="radio" name="q1" value="c">3</label>
+        </fieldset>
+        <fieldset id="q2" class="questions" name="q2">
+            <legend class="title">Example question</legend>
+            <label><input class="a" type="checkbox" name="q2" value="a">Example answer</label>
+            <label><input class="b" type="checkbox" name="q2" value="b">2</label>
+            <label><input class="c" type="checkbox" name="q2" value="c">3</label>
+        </fieldset> -->
+            <div id="buttonGroup">
+                <button id="formReset" type="button">Reset all answers</button>
+                <button id="formSubmit">Submit for review</button>
+            </div>
+        </form>
+    </main>
+    <dialog id="resetConfirmation">
+        <form id="dialogForm" method="dialog">
+            <p id="resetConfirmationText">Do you really want to reset all answers?</p>
+            <button id="resetConfirmation-yes">Yes</button>
+            <button id="resetConfirmation-no" autofocus>No</button>
+        </form>
+    </dialog>
+</body>
+
+</html>
