@@ -1,4 +1,4 @@
-import * as data from "./data/muscles.json" with {type: "json"};
+import * as data from "./data/muscles.json" assert {type: "json"};
 import * as utils from "./utils.js";
 
 
