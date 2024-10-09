@@ -1,6 +1,101 @@
-import * as data from "./data/muscles.json" assert {type: "json"};
+// import * as data from "./data/muscles.json" with {type: "json"};
 import * as utils from "./utils.js";
 
+let data;
+try {
+    let { default: json } = await import("./data/muscles.json", { with: { type: "json" } });
+    // Only the very latest browsers support dynamic JSON imports, so default to old version.
+    data = json;
+} catch {
+    data = {
+        "1": {
+            "title": "What is the function of biceps?",
+            "answers": {
+                "a": {
+                    "answer": "They flex and bend the arm at the elbow.",
+                    "correct": true
+                },
+                "b": {
+                    "answer": "They extend and straighten the arm",
+                    "correct": false
+                },
+                "c": {
+                    "answer": "They help the body reach forward and move the arms away from the body.",
+                    "correct": false
+                }
+            },
+            "multiSelect": false
+        },
+        "2": {
+            "title": "What are the correct antagonistic pairs listed?",
+            "answers": {
+                "a": {
+                    "answer": "Latissimus dorsi and obliques",
+                    "correct": false
+                },
+                "b": {
+                    "answer": "Biceps and triceps",
+                    "correct": true
+                },
+                "c": {
+                    "answer": "Hamstrings and quadriceps",
+                    "correct": true
+                },
+                "d": {
+                    "answer": "Trapezius and deltoids",
+                    "correct": false
+                }
+            },
+            "multiSelect": true
+        },
+        "3": {
+            "title": "Which muscle pulls your arm to your sides?",
+            "answers": {
+                "a": {
+                    "answer": "Obliques",
+                    "correct": false
+                },
+                "b": {
+                    "answer": "Trapezius",
+                    "correct": false
+                },
+                "c": {
+                    "answer": "Deltoids",
+                    "correct": false
+                },
+                "d": {
+                    "answer": "Latissimus dorsi",
+                    "correct": true
+                }
+            },
+            "multiSelect": false
+        },
+        "4": {
+            "title": "What is the function of the gluteals?",
+            "answers": {
+                "a": {
+                    "answer": "They help raise the heels.",
+                    "correct": false
+                },
+                "b": {
+                    "answer": "They straighten the leg.",
+                    "correct": false
+                },
+                "c": {
+                    "answer": "They rotate the leg outwards.",
+                    "correct": true
+                },
+                "d": {
+                    "answer": "They extend the leg at the hip.",
+                    "correct": true
+                }
+            },
+            "multiSelect": true
+        }
+    }
+}
+
+document.getElementById("loadingContainer").remove(); // Stop loading...
 
 // Serves as base data object
 /* In the form of:
@@ -138,7 +233,7 @@ function checkAnswers(data) {
             const id = child.id;
             values.push(main.elements[id].value);
         }
-        const compare = arrayCompare(correctAnswerLetters, values)
+        const compare = utils.arrayCompare(correctAnswerLetters, values)
         utils.addCorrectClass(child, compare);
     }
 }
