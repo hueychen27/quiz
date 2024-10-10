@@ -101,3 +101,57 @@ export function addCorrectClass(el, correct) {
     el.classList.toggle("correct", correct);
     el.classList.toggle("incorrect", !correct);
 }
+
+/**
+ * Get object from JSON file in local filesystem
+ * @param {string} path Path to file in local file
+ * @returns {Promise<object>}
+ */
+export async function getJSONFile(path) {
+    try {
+        let { default: data } = await import(path, { with: { type: "json" } });
+        // Dynamic JSON imports are not supported everywhere like Firefox...
+        return data;
+    } catch {
+        const fetchData = await fetch(path); // Resort to fetch
+        return await fetchData.json();
+    }
+}
+
+/**
+ * Create loading element that can start and stop
+ */
+export class LoadingElement {
+    /**
+     * @type {HTMLElement} Parent element where loading element should be in as first child
+     */
+    el;
+
+    /**
+     * 
+     * @param {HTMLElement} el Element where the loading element should be inserted as the first child
+     */
+    constructor (el) {
+        this.el = el;
+    }
+
+    add() {
+        const container = document.createElement("div");
+        container.className = "loadingContainer";
+
+        const loadingCircle = document.createElement("div");
+        loadingCircle.className = "loadingCircle";
+
+        const loadingText = document.createElement("p");
+        loadingText.className = "loadingText";
+        loadingText.textContent = "Loading quiz questions...";
+
+        container.append(loadingCircle, loadingText);
+
+        if (this.el.firstElementChild) this.el.insertBefore(container, this.el.firstElementChild);
+        else this.el.append(container);
+    }
+    remove() {
+        this.el.firstElementChild.remove();
+    }
+}

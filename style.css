@@ -41,14 +41,14 @@ button {
     padding: 5px;
 }
 
-#loadingContainer {
+.loadingContainer {
     display: grid;
     width: 100%;
     height: fit-content;
     padding: 10px 0;
 }
 
-#loadingCircle {
+.loadingCircle {
     place-self: center;
     height: 100px;
     aspect-ratio: 1 / 1;
@@ -59,7 +59,7 @@ button {
     /* We got that spin eyyy */
 }
 
-#loadingText {
+.loadingText {
     text-align: center;
     font-size: 2rem;
     font-family: "Noto Sans", sans-serif;
