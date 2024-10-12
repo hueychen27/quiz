@@ -4,16 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./favicon.ico">
     <link rel="stylesheet" href="./style.css">
     <title>Quiz</title>
-    <script src="./main.js" type="module" defer></script>
+    <script src="./main.js" type="module"></script>
 </head>
 
 <body>
     <header>
-        <h1>Simple Quiz</h1>
+        <h1 id="title">Simple Quiz</h1>
     </header>
     <main>
+        <header id="selectionHeader">
+            <label for="quizSelection">Choose a quiz: </label>
+            <select id="quizSelection">
+                <option value="muscles.json">Muscles Quiz</option>
+                <option value="unknown.json" disabled> coming soon...</option>
+            </select>
+            <button id="submitChoice" type="button">Choose quiz</button>
+        </header>
         <form id="content">
             <!-- <fieldset id="q1" class="questions" name="q1">
             <legend class="title">Example question</legend>
@@ -26,11 +35,12 @@
             <label><input class="a" type="checkbox" name="q2" value="a">Example answer</label>
             <label><input class="b" type="checkbox" name="q2" value="b">2</label>
             <label><input class="c" type="checkbox" name="q2" value="c">3</label>
-        </fieldset> -->
+        </fieldset>
+
             <div id="buttonGroup">
                 <button id="formReset" type="button">Reset all answers</button>
                 <button id="formSubmit">Submit for review</button>
-            </div>
+            </div> -->
         </form>
     </main>
     <dialog id="resetConfirmation">

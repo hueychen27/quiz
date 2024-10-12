@@ -108,14 +108,8 @@ export function addCorrectClass(el, correct) {
  * @returns {Promise<object>}
  */
 export async function getJSONFile(path) {
-    try {
-        let { default: data } = await import(path, { with: { type: "json" } });
-        // Dynamic JSON imports are not supported everywhere like Firefox...
-        return data;
-    } catch {
-        const fetchData = await fetch(path); // Resort to fetch
-        return await fetchData.json();
-    }
+    const fetchData = await fetch(path);
+    return await fetchData.json();
 }
 
 /**
@@ -123,9 +117,15 @@ export async function getJSONFile(path) {
  */
 export class LoadingElement {
     /**
-     * @type {HTMLElement} Parent element where loading element should be in as first child
+     * Parent element where loading element should be in as first child
+     * @type {HTMLElement}
      */
     el;
+
+    /**
+     * Whether the loading element is enabled
+     */
+    enabled = false;
 
     /**
      * 
@@ -135,7 +135,9 @@ export class LoadingElement {
         this.el = el;
     }
 
-    add() {
+    enable() {
+        if (this.enabled) return false;
+        this.enabled = true;
         const container = document.createElement("div");
         container.className = "loadingContainer";
 
@@ -150,8 +152,12 @@ export class LoadingElement {
 
         if (this.el.firstElementChild) this.el.insertBefore(container, this.el.firstElementChild);
         else this.el.append(container);
+        return true;
     }
-    remove() {
+    disable() {
+        if (!this.enabled) return false;
+        this.enabled = false;
         this.el.firstElementChild.remove();
+        return true;
     }
 }

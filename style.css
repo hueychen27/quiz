@@ -8,6 +8,7 @@
 
 body {
     padding: 10px;
+    font-family: "Tahoma", sans-serif;
 }
 
 button {
@@ -16,29 +17,17 @@ button {
     cursor: pointer;
 }
 
-#content {
-    border: 2px solid black;
+button:disabled {
+    cursor: default;
 }
 
-#content input {
-    cursor: pointer;
+label {
+    white-space: pre-wrap;
+    /* Wrap newlines in text */
 }
 
-#content label {
-    user-select: none;
-}
-
-#resetConfirmation {
-    margin: auto auto;
-    border-radius: 25px;
-}
-
-#dialogForm {
-    padding: 3rem;
-}
-
-#buttonGroup {
-    padding: 5px;
+fieldset > label > input {
+    margin-right: 10px;
 }
 
 .loadingContainer {
@@ -108,7 +97,41 @@ button {
     font-size: 30px;
 }
 
-label {
-    white-space: pre-wrap;
-    /* Wrap newlines in text */
+#content {
+    border: 2px solid black;
+    display: none;
+}
+
+#content input {
+    cursor: pointer;
+}
+
+#content label {
+    user-select: none;
+}
+
+#resetConfirmation {
+    margin: auto auto;
+    border-radius: 25px;
+}
+
+#dialogForm {
+    padding: 3rem;
+}
+
+#buttonGroup {
+    padding: 5px;
+}
+
+#selectionHeader {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0;
+}
+
+#title {
+    text-align: center;
 }

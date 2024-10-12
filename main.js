@@ -1,14 +1,5 @@
 import * as utils from "./utils.js";
 
-const loadingEl = new utils.LoadingElement(document.getElementById("content"));
-loadingEl.add();
-/**
- * @type {data}
- */
-const data = await utils.getJSONFile("./data/muscles.json");
-
-loadingEl.remove();
-
 // Serves as base data object
 /* In the form of:
 data = {
@@ -33,19 +24,45 @@ data = {
 */
 
 /**
+ * @type {HTMLFormElement}
+ */
+const main = document.getElementById("content");
+
+/**
  * Initialize quiz questions and answers on website page
  * @param {data} data 
  */
 function initiateQuiz(data) {
     const mapData = new Map(Object.entries(data)); // Create Map to retain order
-    /**
-     * @type {HTMLFormElement}
-     */
-    const main = document.getElementById("content");
-    /**
-     * @type {HTMLButtonElement}
-     */
-    const buttons = document.getElementById("buttonGroup");
+
+    while (main.lastElementChild) {
+        main.removeChild(main.lastElementChild);
+    }
+
+    const buttonGroup = document.createElement("div");
+
+    buttonGroup.id = "buttonGroup";
+
+    const resetButton = document.createElement("button");
+
+    resetButton.id = "formReset";
+    resetButton.type = "button";
+    resetButton.textContent = "Reset all answers";
+    resetButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        /**
+         * @type {HTMLDialogElement}
+         */
+        const dialog = document.getElementById("resetConfirmation");
+        dialog.showModal();
+    });
+
+    const submitButton = document.createElement("button");
+
+    submitButton.id = "formSubmit";
+    submitButton.textContent = "Submit for review";
+
+    buttonGroup.append(resetButton, submitButton);
 
     /**
      * @type {mapData}
@@ -99,7 +116,7 @@ function initiateQuiz(data) {
 
 
         fieldset.append(legend, ...labelArray);
-        main.insertBefore(fieldset, buttons);
+        main.append(fieldset, buttonGroup);
         /** In the form of:
         <fieldset id="q1" class="questions">
             <legend class="title">Example question</legend>
@@ -117,10 +134,6 @@ function initiateQuiz(data) {
  */
 function checkAnswers(data) {
     const mapData = new Map(Object.entries(data)); // Create Map to retain order
-    /**
-     * @type {HTMLFormElement}
-     */
-    const main = document.getElementById("content");
 
     const length = main.children.length - 1;
     for (let i = 0; i < length /** Exclude legend and button group */; i++) {
@@ -157,15 +170,6 @@ document.getElementById("content").addEventListener("submit", (e) => {
     return false;
 })
 
-document.getElementById("formReset").addEventListener("click", (e) => {
-    e.preventDefault();
-    /**
-     * @type {HTMLDialogElement}
-     */
-    const dialog = document.getElementById("resetConfirmation");
-    dialog.showModal();
-})
-
 document.getElementById("resetConfirmation").addEventListener("mousedown", (e) => {
     if (e.target === e.currentTarget) {
         e.currentTarget.close();
@@ -173,11 +177,22 @@ document.getElementById("resetConfirmation").addEventListener("mousedown", (e) =
 }) // Credit: https://stackoverflow.com/a/72916231
 
 document.getElementById("resetConfirmation-yes").addEventListener("click", () => {
-    /**
-     * @type {HTMLFormElement}
-     */
-    const main = document.getElementById("content");
     main.reset();
 })
 
-initiateQuiz(data);
+document.getElementById("submitChoice").addEventListener("click", async (e) => {
+    (main.style.display) || (main.style.display = "block");
+    const loadingEl = new utils.LoadingElement(document.getElementById("content"));
+    loadingEl.enable();
+
+    const selection = document.getElementById("quizSelection");
+
+    /**
+     * @type {data}
+     */
+    const data = await utils.getJSONFile("./data/" + selection.value);
+
+    loadingEl.disable();
+
+    initiateQuiz(data);
+})
