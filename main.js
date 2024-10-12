@@ -1,5 +1,6 @@
 import * as utils from "./utils.js";
 
+let data;
 // Serves as base data object
 /* In the form of:
 data = {
@@ -180,9 +181,9 @@ document.getElementById("resetConfirmation-yes").addEventListener("click", () =>
     main.reset();
 })
 
-document.getElementById("submitChoice").addEventListener("click", async (e) => {
+document.getElementById("submitChoice").addEventListener("click", async () => {
     (main.style.display) || (main.style.display = "block");
-    const loadingEl = new utils.LoadingElement(document.getElementById("content"));
+    const loadingEl = new utils.LoadingElement(main);
     loadingEl.enable();
 
     const selection = document.getElementById("quizSelection");
@@ -190,7 +191,7 @@ document.getElementById("submitChoice").addEventListener("click", async (e) => {
     /**
      * @type {data}
      */
-    const data = await utils.getJSONFile("./data/" + selection.value);
+    data = await utils.getJSONFile("./data/" + selection.value);
 
     loadingEl.disable();
 
