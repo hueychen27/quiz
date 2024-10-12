@@ -1,5 +1,8 @@
 import * as utils from "./utils.js";
 
+/**
+ * @type {data}
+ */
 let data;
 // Serves as base data object
 /* In the form of:
@@ -32,8 +35,10 @@ const main = document.getElementById("content");
 /**
  * Initialize quiz questions and answers on website page
  * @param {data} data 
+ * @param {options} options Options to modify quiz behavior
  */
-function initiateQuiz(data) {
+function initiateQuiz(data, options) {
+    console.log(options)
     const mapData = new Map(Object.entries(data)); // Create Map to retain order
 
     while (main.lastElementChild) {
@@ -68,7 +73,7 @@ function initiateQuiz(data) {
     /**
      * @type {mapData}
      */
-    const shuffled = utils.shuffleMap(mapData);
+    const shuffled = options.shuffleQuestions ? utils.shuffleMap(mapData) : mapData;
     /**
      * @type {entries}
      */
@@ -82,7 +87,7 @@ function initiateQuiz(data) {
         /**
          * @type {unshuffledAnswers}
          */
-        const answers = utils.shuffleObject(unshuffledAnswers);
+        const answers = options.shuffleAnswers ? utils.shuffleObject(unshuffledAnswers) : unshuffledAnswers;
 
         const fieldset = document.createElement("fieldset"); // Make <fieldset> container
         fieldset.id = id;
@@ -187,13 +192,29 @@ document.getElementById("submitChoice").addEventListener("click", async () => {
     loadingEl.enable();
 
     const selection = document.getElementById("quizSelection");
+    /**
+     * @type {HTMLSelectElement}
+     */
+    const shuffleQuestions = document.getElementById("shuffleQuestions");
+    /**
+     * @type {HTMLSelectElement}
+     */
+    const shuffleAnswers = document.getElementById("shuffleAnswers");
 
     /**
      * @type {data}
      */
     data = await utils.getJSONFile("./data/" + selection.value);
 
+    /**
+     * @type {options}
+     */
+    const options = {
+        shuffleQuestions: shuffleQuestions.value === "true",
+        shuffleAnswers: shuffleAnswers.value === "true"
+    }
+
     loadingEl.disable();
 
-    initiateQuiz(data);
+    initiateQuiz(data, options);
 })

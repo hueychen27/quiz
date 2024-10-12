@@ -1,0 +1,50 @@
+{
+    "1": {
+        "title": "The medieval period begins after what event?",
+        "answers": {
+            "a": {
+                "answer": "The death of Julius Caesar",
+                "correct": false
+            },
+            "b": {
+                "answer": "The fall of the Western Roman Empire",
+                "correct": true
+            },
+            "c": {
+                "answer": "The Renaissance Era",
+                "correct": false
+            },
+            "d": {
+                "answer": "Charlemagne reunites most of western Europe",
+                "correct": false
+            }
+        },
+        "multiSelect": false
+    },
+    "2": {
+        "title": "Charlemagne left what effects after his death?",
+        "answers": {
+            "a": {
+                "answer": "The church gained power as the highest authority",
+                "correct": true
+            },
+            "b": {
+                "answer": "The Holy Roman Empire grew even stronger by his successors",
+                "correct": false
+            },
+            "c": {
+                "answer": "Traditions across western Europe became mixed",
+                "correct": true
+            },
+            "d": {
+                "answer": "The Holy Roman Empire split into four parts",
+                "correct": false
+            },
+            "e": {
+                "answer": "Christianity spread to southern Europe",
+                "correct": false
+            }
+        },
+        "multiSelect": true
+    }
+}

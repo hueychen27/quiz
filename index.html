@@ -18,8 +18,18 @@
         <header id="selectionHeader">
             <label for="quizSelection">Choose a quiz: </label>
             <select id="quizSelection">
-                <option value="muscles.json">Muscles Quiz</option>
-                <option value="unknown.json" disabled> coming soon...</option>
+                <option value="muscles.json" selected>7th Muscles Quiz</option>
+                <option value="medieval.json">Medieval Quiz</option>
+            </select>
+            <label for="shuffleQuestions">Shuffle questions?</label>
+            <select id="shuffleQuestions">
+                <option value="true" selected>Yes</option>
+                <option value="false">No</option>
+            </select>
+            <label for="shuffleAnswers">Shuffle answers?</label>
+            <select id="shuffleAnswers">
+                <option value="true" selected>Yes</option>
+                <option value="false">No</option>
             </select>
             <button id="submitChoice" type="button">Choose quiz</button>
         </header>
