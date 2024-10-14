@@ -38,7 +38,6 @@ const main = document.getElementById("content");
  * @param {options} options Options to modify quiz behavior
  */
 function initiateQuiz(data, options) {
-    console.log(options)
     const mapData = new Map(Object.entries(data)); // Create Map to retain order
 
     while (main.lastElementChild) {
@@ -176,22 +175,74 @@ document.getElementById("content").addEventListener("submit", (e) => {
     return false;
 })
 
-document.getElementById("resetConfirmation").addEventListener("mousedown", (e) => {
-    if (e.target === e.currentTarget) {
-        e.currentTarget.close();
-    }
-}) // Credit: https://stackoverflow.com/a/72916231
+document.querySelectorAll("dialog").forEach((el) => {
+    utils.makeDialogBackgroundClickable(el);
+})
 
 document.getElementById("resetConfirmation-yes").addEventListener("click", () => {
     main.reset();
 })
 
+/**
+ * @type {HTMLSelectElement}
+ */
+const selectionModeEl = document.getElementById("selectionMode");
+
+selectionModeEl.addEventListener("change", (e) => {
+    document.getElementById("quizSelectionContainer").style.display = e.target.value === "custom" ? "none" : "block";
+    document.getElementById("fileInputContainer").style.display = e.target.value === "predefined" ? "none" : "block";
+})
+
 document.getElementById("submitChoice").addEventListener("click", async () => {
-    (main.style.display) || (main.style.display = "block");
     const loadingEl = new utils.LoadingElement(main);
     loadingEl.enable();
 
-    const selection = document.getElementById("quizSelection");
+    /**
+     * @type {HTMLInputElement}
+     */
+    const fileInput = document.getElementById("fileInput");
+    /**
+     * @type {string?}
+     */
+    let file;
+    if (selectionModeEl.value === "custom") {
+        try {
+            file = await utils.fileHandler(fileInput);
+        } catch (e) {
+            utils.alertDialog(e);
+            main.style.display = "";
+            return;
+        }
+    }
+
+    if (selectionModeEl.value === "predefined") {
+        /**
+         * @type {data}
+         */
+        data = await utils.getJSONFile("./data/" + document.getElementById("quizSelection").value);
+    } else {
+        try {
+            data = JSON.parse(file);
+        } catch (e) {
+            if (!(e instanceof SyntaxError)) throw e;
+            utils.alertDialog("Error in JSON file while parsing it:\n" + "<pre style='margin: 10px 0;'>" + e.message + "</pre>");
+            main.style.display = "";
+            loadingEl.disable();
+            return;
+        }
+    }
+
+    try {
+        utils.validateObject(data);
+    } catch (e) {
+        if (!(e instanceof utils.ValidationError)) throw e;
+        utils.alertDialog("Error in JSON file while validating it:\n" + "<pre style='margin: 10px 0;'>" + e.message + "</pre>");
+        main.style.display = "";
+        return;
+    } finally {
+        loadingEl.disable();
+    }
+
     /**
      * @type {HTMLSelectElement}
      */
@@ -202,19 +253,14 @@ document.getElementById("submitChoice").addEventListener("click", async () => {
     const shuffleAnswers = document.getElementById("shuffleAnswers");
 
     /**
-     * @type {data}
-     */
-    data = await utils.getJSONFile("./data/" + selection.value);
-
-    /**
      * @type {options}
      */
     const options = {
-        shuffleQuestions: shuffleQuestions.value === "true",
-        shuffleAnswers: shuffleAnswers.value === "true"
+        shuffleQuestions: +shuffleQuestions.value,
+        shuffleAnswers: +shuffleAnswers.value
     }
 
-    loadingEl.disable();
-
     initiateQuiz(data, options);
+
+    main.style.display = "block";
 })

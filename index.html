@@ -4,10 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="./favicon.ico">
-    <link rel="stylesheet" href="./style.css">
+    <link rel="icon" href="./img/favicon.ico">
+    <link rel="stylesheet" href="./css/style.css">
     <title>Quiz</title>
-    <script src="./main.js" type="module"></script>
+    <script type="importmap">
+        {
+            "imports": {
+                "yup": "/node_modules/yup/index.esm.js",
+                "property-expr": "/node_modules/property-expr/index.js",
+                "tiny-case": "/node_modules/tiny-case/index.js",
+                "toposort": "/node_modules/toposort/index.js",
+                "dompurify": "/node_modules/dompurify/dist/purify.es.mjs"
+            }
+        }
+    </script>
+    <script src="./js/main.js" type="module"></script>
 </head>
 
 <body>
@@ -16,21 +27,43 @@
     </header>
     <main>
         <header id="selectionHeader">
-            <label for="quizSelection">Choose a quiz: </label>
-            <select id="quizSelection">
-                <option value="muscles.json" selected>7th Muscles Quiz</option>
-                <option value="medieval.json">Medieval Quiz</option>
-            </select>
-            <label for="shuffleQuestions">Shuffle questions?</label>
-            <select id="shuffleQuestions">
-                <option value="true" selected>Yes</option>
-                <option value="false">No</option>
-            </select>
-            <label for="shuffleAnswers">Shuffle answers?</label>
-            <select id="shuffleAnswers">
-                <option value="true" selected>Yes</option>
-                <option value="false">No</option>
-            </select>
+            <section id="quizSelect">
+                <h2>Quiz Selection</h2>
+                <div id="selectionModeContainer">
+                    <label for="selectionMode">Selection mode</label>
+                    <select id="selectionMode">
+                        <option value="predefined" selected>Predefined</option>
+                        <option value="custom">Custom File</option>
+                    </select>
+                </div>
+                <div id="quizSelectionContainer">
+                    <label for="quizSelection">Choose a quiz: </label>
+                    <select id="quizSelection">
+                        <option value="muscles.json" selected>7th Muscles Quiz</option>
+                        <option value="medieval.json">Medieval Quiz</option>
+                    </select>
+                </div>
+                <div id="fileInputContainer">
+                    <input type="file" id="fileInput" accept=".json,application/json">
+                </div>
+            </section>
+            <section id="options">
+                <h2>Modify Quiz Options</h2>
+                <div>
+                    <label for="shuffleQuestions">Shuffle questions: </label>
+                    <select id="shuffleQuestions">
+                        <option value="1" selected>Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="shuffleAnswers">Shuffle answers: </label>
+                    <select id="shuffleAnswers">
+                        <option value="1" selected>Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+            </section>
             <button id="submitChoice" type="button">Choose quiz</button>
         </header>
         <form id="content">
@@ -53,9 +86,9 @@
             </div> -->
         </form>
     </main>
-    <dialog id="resetConfirmation">
-        <form id="dialogForm" method="dialog">
-            <p id="resetConfirmationText">Do you really want to reset all answers?</p>
+    <dialog class="dialog">
+        <form class="dialogForm" method="dialog">
+            <p>Do you really want to reset all answers?</p>
             <button id="resetConfirmation-yes">Yes</button>
             <button id="resetConfirmation-no" autofocus>No</button>
         </form>
